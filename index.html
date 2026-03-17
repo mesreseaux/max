@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Réseaux</title>
+    <style>
+        :root {
+            /* Palette Violette Globale */
+            --bg-light-violet: #e1ccff;
+            --bg-dark-violet: #4a148c;
+            --container-bg: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --neon-purple: #9b4dca;
+            --neon-magenta: #e4405f;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-light-violet) 0%, var(--bg-dark-violet) 100%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* Arrière-plan animé */
+        .blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(120px);
+            opacity: 0.6;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            animation: move-blobs 20s infinite ease-in-out;
+        }
+
+        .blob-purple {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            top: -150px;
+            left: -150px;
+        }
+
+        .blob-magenta {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--neon-magenta) 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -7s;
+        }
+
+        @keyframes move-blobs {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, 50px) scale(1.1); }
+        }
+
+        /* Conteneur principal */
+        .container {
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            background-color: var(--container-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Photo de profil */
+        .profile-pic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 30px;
+            border: 4px solid transparent;
+            background: linear-gradient(var(--bg-dark-violet), var(--bg-dark-violet)) padding-box,
+                        linear-gradient(to bottom right, var(--neon-purple), var(--neon-magenta)) border-box;
+            box-shadow: 0 0 20px rgba(155, 77, 202, 0.2), 0 0 20px rgba(228, 64, 95, 0.2);
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Liens */
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
+        }
+
+        .link-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .link-card svg {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            fill: var(--text-main);
+            transition: fill 0.3s ease, transform 0.3s ease;
+        }
+
+        .link-card:hover svg {
+            fill: currentColor;
+            transform: rotate(-10deg);
+        }
+
+        .link-card.tiktok:hover {
+            color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(155, 77, 202, 0.3);
+            border-color: var(--neon-purple);
+        }
+
+        .link-card.instagram:hover {
+            color: var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(228, 64, 95, 0.3);
+            border-color: var(--neon-magenta);
+        }
+
+        /* --- Nouveau Formulaire --- */
+        .card {
+            width: 100%;
+            min-height: 20rem;
+            background-color: #4158D0;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            border-top-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            padding: 2rem 1.5rem;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            transition: 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+            border: none;
+        }
+
+        .heading {
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .input-div {
+            display: flex;
+            width: 100%;
+            transition: 0.5s ease-in-out;
+        }
+
+        .card input, 
+        .card select, 
+        .card textarea {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid black;
+            width: 100%;
+            padding: 10px 8px;
+            outline: none;
+            color: black;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Customisation de la flèche du menu déroulant */
+        .card select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22black%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: 12px auto;
+            cursor: pointer;
+        }
+
+        /* Couleur de fond des options du menu pour la lisibilité */
+        .card select option {
+            background-color: #C850C0;
+            color: white;
+            font-weight: 600;
+        }
+
+        .card input::placeholder, 
+        .card textarea::placeholder {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .card textarea {
+            resize: none;
+            height: 60px;
+        }
+
+        .input:focus, .input:hover {
+            transition: 0.2s ease-in-out;
+            box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
+                        rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, 
+                        rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, 
+                        rgba(0, 0, 0, 0.06) 0px 2px 1px, 
+                        rgba(0, 0, 0, 0.09) 0px 4px 2px, 
+                        rgba(0, 0, 0, 0.09) 0px 8px 4px, 
+                        rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+                        rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        }
+
+        .button-div {
+            text-align: center;
+            width: 100%;
+        }
+
+        .submit {
+            margin-top: 1.5rem;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            border: none;
+            border-top-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.5s ease-in-out;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            box-shadow: rgba(44, 43, 43, 0.664) 5px 5px, 
+                        rgba(45, 45, 45, 0.3) 10px 10px, 
+                        rgba(60, 59, 59, 0.2) 15px 15px, 
+                        rgba(54, 53, 53, 0.1) 20px 20px, 
+                        rgba(240, 46, 170, 0.05) 25px 25px;
+        }
+
+        .status-message {
+            color: black;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        .footer .copyright {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="blobs">
+        <div class="blob blob-purple"></div>
+        <div class="blob blob-magenta"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="profile-pic">
+                <img src="1.jpeg" alt="Profile Picture">
+            </div>
+        </header>
+
+        <div class="links-wrapper">
+            <a href="https://www.tiktok.com/@max.billmann" class="link-card tiktok" target="_blank">
+                <svg viewBox="0 0 448 512">
+                    <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a73.32,73.32,0,1,0,72.27,73.31V0h90.41a108.94,108.94,0,0,0,10.88,47.31,107.59,107.59,0,0,0,72.77,72.77A108.91,108.91,0,0,0,448,131.13Z"/>
+                </svg>
+                TIKTOK
+            </a>
+            <a href="https://www.instagram.com/max_blmn3" class="link-card instagram" target="_blank">
+                <svg viewBox="0 0 448 512">
+                    <path d="M224,202.66A51.34,51.34,0,1,0,275.34,254,51.35,51.35,0,0,0,224,202.66Zm127.13-1.07V306.41c0,36.17-29.3,65.47-65.47,65.47H162.34C126.17,371.88,96.87,342.58,96.87,306.41V201.59c0-36.17,29.3-65.47,65.47-65.47h123.32C321.83,136.12,351.13,165.42,351.13,201.59Zm-127.13,99.8c31.17,0,56.45-25.28,56.45-56.45S255.17,188.49,224,188.49,167.55,213.77,167.55,244.94,192.83,301.39,224,301.39ZM448,109.92a109.92,109.92,0,0,0-109.92-109.92H109.92A109.92,109.92,0,0,0,0,109.92V402.08A109.92,109.92,0,0,0,109.92,512H338.08A109.92,109.92,0,0,0,448,402.08V109.92ZM381.16,368c0,21.36-17.3,38.66-38.66,38.66H105.5c-21.36,0-38.66-17.3-38.66-38.66V144c0-21.36,17.3-38.66,38.66-38.66h237c21.36,0,38.66,17.3,38.66,38.66Zm-241.07-224a13.4,13.4,0,1,1,13.4,13.4A13.4,13.4,0,0,1,140.09,144Z"/>
+                </svg>
+                INSTAGRAM
+            </a>
+        </div>
+
+        <form id="contactForm" class="card">
+            <p class="heading">Me contacter</p>
+            
+            <div class="input-div">
+                <select id="network" class="input" required>
+                    <option value="" disabled selected>Choisis un réseau</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Snapchat">Snapchat</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Numéro de téléphone">Numéro de téléphone</option>
+                    <option value="Adresse mail">Adresse mail</option>
+                    <option value="Discord">Discord</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            
+            <div class="input-div">
+                <input type="text" id="pseudo" class="input" placeholder="Pseudo / Coordonnées" required>
+            </div>
+            
+            <div class="input-div">
+                <textarea id="message" class="input" placeholder="Message" required></textarea>
+            </div>
+            
+            <div class="button-div">
+                <button type="submit" class="submit">Envoyer</button>
+            </div>
+            
+            <p id="statusMessage" class="status-message"></p>
+        </form>
+
+        <footer class="footer">
+            <p>Site créé et publié par itsmto</p>
+            <p class="copyright">&copy; <span>2026</span></p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const webhookUrl = 'https://discord.com/api/webhooks/1483393535892918356/L8higA1eqTBG1GvgKa_LUI55tMNB8Ude-nyQ1mqXC0bpJz6jPlGA4lIjb9phM3AUm_p0';
+            
+            const network = document.getElementById('network').value;
+            const pseudo = document.getElementById('pseudo').value;
+            const message = document.getElementById('message').value;
+            const statusText = document.getElementById('statusMessage');
+
+            const payload = {
+                content: "Nouveau message depuis ton site !",
+                embeds: [{
+                    title: "Détails du contact direct",
+                    color: 13127872, // Couleur magenta correspondant au milieu du dégradé
+                    fields: [
+                        { name: "Réseau Social / Moyen", value: network, inline: true },
+                        { name: "Pseudo / Coordonnées", value: pseudo, inline: true },
+                        { name: "Message", value: message }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            statusText.style.display = 'block';
+            statusText.style.color = 'black';
+            statusText.textContent = "Envoi en cours...";
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusText.textContent = "Message envoyé avec succès !";
+                    document.getElementById('contactForm').reset();
+                } else {
+                    throw new Error('Erreur réseau');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                statusText.style.color = '#fff';
+                statusText.textContent = "Erreur lors de l'envoi du message.";
+            });
+        });
+    </script>
+</body>
+</html>
