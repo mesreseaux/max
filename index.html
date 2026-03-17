@@ -12,7 +12,7 @@
             --container-bg-glass: rgba(0, 0, 0, 0.03); /* Léger contraste verre sur blanc */
             --glass-border: rgba(0, 0, 0, 0.1); /* Bordure sombre et discrète */
             --neon-magenta: #e4405f;
-            --watermark-mask-bg: #ffffff; /* Le bloc de masque blanc */
+            /* La variable pour le masque n'est plus nécessaire car il n'y a plus de filigrane à cacher */
         }
 
         * {
@@ -38,7 +38,7 @@
             touch-action: pan-y; /* Prioritize natural page scrolling on touch devices */
         }
 
-        /* Arrière-plan Spline 3D */
+        /* Arrière-plan désormais vide */
         .spline-bg {
             position: fixed;
             top: 0;
@@ -46,22 +46,13 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            pointer-events: auto; /* Permet l'interaction 3D si nécessaire */
+            /* Pointer-events: none car il n'y a plus de 3D à manipuler */
+            pointer-events: none; 
         }
 
-        /* Masque physique anti-filigrane gratuit pour fond blanc */
-        .spline-watermark-hide-mask {
-            position: absolute;
-            bottom: 0px;
-            right: 0px;
-            width: 150px; /* Taille pour couvrir le logo iframe */
-            height: 50px;
-            background-color: var(--watermark-mask-bg); /* Fond blanc pour cacher */
-            z-index: 2; /* Juste au-dessus de l'iframe */
-            pointer-events: all; /* Bloque le clic sur leur lien */
-        }
+        /* Le CSS pour le masque n'est plus nécessaire */
 
-        /* Conteneur principal */
+        /* Conteneur principal - Toujours positionné à 100vh du haut pour laisser un espace vide initial */
         .container {
             width: 90%;
             max-width: 380px;
@@ -328,9 +319,7 @@
 </head>
 <body>
     <div class="spline-bg">
-        <iframe src='https://my.spline.design/electricscooter-7cAWm7BVTMVETRHQprWVyREF/' frameborder='0' width='100%' height='100%'></iframe>
-        <div class="spline-watermark-hide-mask"></div>
-    </div>
+        </div>
 
     <div class="container">
         <header>
@@ -389,11 +378,14 @@
 
         <footer class="footer">
             <p>Site créé et publié par itsmto</p>
-            <p class="copyright">&copy; <span>2026</span></p>
+            <p class="copyright">&copy; <span id="year">2026</span></p>
         </footer>
     </div>
 
     <script>
+        // L'année est fixée à 2026 dans le HTML, pas de mise à jour nécessaire
+        // document.getElementById('year').textContent = new Date().getFullYear();
+
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
 
