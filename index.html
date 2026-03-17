@@ -10,7 +10,7 @@
             --container-bg: rgba(10, 10, 10, 0.6);
             --text-main: #ffffff;
             --glass-border: rgba(255, 255, 255, 0.1);
-            --of-blue: #00aff0;
+            --neon-magenta: #e4405f;
         }
 
         * {
@@ -23,13 +23,9 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            padding: 20px 0;
+            /* Le display flex a été retiré pour permettre le défilement naturel */
         }
 
         /* Arrière-plan Spline 3D */
@@ -40,7 +36,7 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            pointer-events: auto; /* Permet d'interagir avec la 3D si besoin */
+            pointer-events: auto;
         }
 
         spline-viewer {
@@ -48,10 +44,17 @@
             height: 100%;
         }
 
+        /* Masquer le filigrane Spline */
+        spline-viewer::part(logo) {
+            display: none !important;
+        }
+
         /* Conteneur principal */
         .container {
             width: 90%;
             max-width: 380px;
+            /* Marge supérieure de 100vh pour placer le bloc exactement sous la première vue */
+            margin: 100vh auto 40px auto; 
             text-align: center;
             backdrop-filter: blur(12px);
             background-color: var(--container-bg);
@@ -62,7 +65,6 @@
             animation: fadeIn 1s ease-out;
             position: relative;
             z-index: 1;
-            /* Permet de cliquer sur le formulaire sans bloquer la 3D autour */
             pointer-events: auto; 
         }
 
@@ -95,6 +97,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-top: 60px;
             margin-bottom: 40px;
         }
 
@@ -156,10 +159,10 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        .link-card.onlyfans:hover {
-            color: var(--of-blue);
-            box-shadow: 0 0 20px rgba(0, 175, 240, 0.3);
-            border-color: var(--of-blue);
+        .link-card.instagram:hover {
+            color: var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(228, 64, 95, 0.3);
+            border-color: var(--neon-magenta);
         }
 
         /* Formulaire Uiverse */
@@ -325,11 +328,11 @@
                 TIKTOK
             </a>
             
-            <a href="https://www.instagram.com/max_blmn3" class="link-card onlyfans" target="_blank">
+            <a href="https://www.instagram.com/max_blmn3" class="link-card instagram" target="_blank">
                 <svg viewBox="0 0 448 512">
-                    <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
+                    <path d="M224,202.66A51.34,51.34,0,1,0,275.34,254,51.35,51.35,0,0,0,224,202.66Zm127.13-1.07V306.41c0,36.17-29.3,65.47-65.47,65.47H162.34C126.17,371.88,96.87,342.58,96.87,306.41V201.59c0-36.17,29.3-65.47,65.47-65.47h123.32C321.83,136.12,351.13,165.42,351.13,201.59Zm-127.13,99.8c31.17,0,56.45-25.28,56.45-56.45S255.17,188.49,224,188.49,167.55,213.77,167.55,244.94,192.83,301.39,224,301.39ZM448,109.92a109.92,109.92,0,0,0-109.92-109.92H109.92A109.92,109.92,0,0,0,0,109.92V402.08A109.92,109.92,0,0,0,109.92,512H338.08A109.92,109.92,0,0,0,448,402.08V109.92ZM381.16,368c0,21.36-17.3,38.66-38.66,38.66H105.5c-21.36,0-38.66-17.3-38.66-38.66V144c0-21.36,17.3-38.66,38.66-38.66h237c21.36,0,38.66,17.3,38.66,38.66Zm-241.07-224a13.4,13.4,0,1,1,13.4,13.4A13.4,13.4,0,0,1,140.09,144Z"/>
                 </svg>
-                ONLYFANS
+                INSTAGRAM
             </a>
         </div>
 
