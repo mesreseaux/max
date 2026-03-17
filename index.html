@@ -6,15 +6,11 @@
     <title>Mes Réseaux</title>
     <style>
         :root {
-            /* Palette Dark Marbre */
-            --bg-dark: #050505;
-            --bg-light-accent: #1a1a1a;
-            --container-bg: rgba(20, 20, 20, 0.6);
+            --bg-dark: #000000;
+            --container-bg: rgba(10, 10, 10, 0.6);
             --text-main: #ffffff;
-            --neon-white: #ffffff;
-            --neon-grey: #444444;
             --glass-border: rgba(255, 255, 255, 0.1);
-            --of-blue: #00aff0; /* Couleur officielle OnlyFans */
+            --of-blue: #00aff0;
         }
 
         * {
@@ -26,10 +22,6 @@
 
         body {
             background-color: var(--bg-dark);
-            /* Effet texture marbre noir cassé avec bruit SVG et dégradé */
-            background-image: 
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
-                radial-gradient(circle at 50% 0%, var(--bg-light-accent) 0%, var(--bg-dark) 80%);
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -40,44 +32,20 @@
             padding: 20px 0;
         }
 
-        /* Arrière-plan animé (Lueurs pour effet marbre poli) */
-        .blobs {
+        /* Arrière-plan Spline 3D */
+        .spline-bg {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: auto; /* Permet d'interagir avec la 3D si besoin */
+        }
+
+        spline-viewer {
             width: 100%;
             height: 100%;
-            z-index: -1;
-            filter: blur(100px);
-            opacity: 0.3;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            animation: move-blobs 25s infinite ease-in-out;
-        }
-
-        .blob-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--neon-grey) 0%, transparent 70%);
-            top: -100px;
-            left: -100px;
-        }
-
-        .blob-2 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--neon-white) 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            animation-delay: -5s;
-        }
-
-        @keyframes move-blobs {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.05); }
         }
 
         /* Conteneur principal */
@@ -85,15 +53,17 @@
             width: 90%;
             max-width: 380px;
             text-align: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(12px);
             background-color: var(--container-bg);
             border: 1px solid var(--glass-border);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.02);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.05);
             animation: fadeIn 1s ease-out;
             position: relative;
             z-index: 1;
+            /* Permet de cliquer sur le formulaire sans bloquer la 3D autour */
+            pointer-events: auto; 
         }
 
         @keyframes fadeIn {
@@ -101,16 +71,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Photo de profil (Restaurée pour utiliser 1.jpeg) */
+        /* Photo de profil */
         .profile-pic {
             width: 110px;
             height: 110px;
             border-radius: 50%;
             overflow: hidden;
             margin: 0 auto 30px;
-            border: 4px solid transparent;
-            background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
-                        linear-gradient(to bottom right, var(--neon-grey), var(--neon-white)) border-box;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            background: #111;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
@@ -134,7 +103,7 @@
             align-items: center;
             justify-content: center;
             padding: 18px;
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             text-decoration: none;
@@ -154,8 +123,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
         }
 
         .link-card:hover::before {
@@ -164,9 +133,9 @@
 
         .link-card:hover {
             transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .link-card svg {
@@ -182,7 +151,11 @@
             transform: rotate(-10deg);
         }
 
-        /* Hover spécifique OnlyFans */
+        .link-card.tiktok:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
         .link-card.onlyfans:hover {
             color: var(--of-blue);
             box-shadow: 0 0 20px rgba(0, 175, 240, 0.3);
@@ -198,7 +171,7 @@
             border-top-left-radius: 2rem;
             border-bottom-right-radius: 2rem;
             padding: 2rem 1.5rem;
-            box-shadow: rgba(0, 0, 0, 0.5) 0px 19px 38px, rgba(0, 0, 0, 0.4) 0px 15px 12px;
+            box-shadow: rgba(0, 0, 0, 0.8) 0px 19px 38px, rgba(0, 0, 0, 0.6) 0px 15px 12px;
             transition: 0.5s ease-in-out;
             display: flex;
             flex-direction: column;
@@ -311,7 +284,7 @@
             display: none;
             margin-top: 10px;
             text-align: center;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
         /* Footer */
@@ -332,9 +305,9 @@
     </style>
 </head>
 <body>
-    <div class="blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
+    <div class="spline-bg">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.69/build/spline-viewer.js"></script>
+        <spline-viewer url="https://prod.spline.design/ZSGiJpccG52kovPB/scene.splinecode"></spline-viewer>
     </div>
 
     <div class="container">
@@ -424,7 +397,7 @@
             };
 
             statusText.style.display = 'block';
-            statusText.style.color = 'black';
+            statusText.style.color = 'white';
             statusText.textContent = "Envoi en cours...";
 
             fetch(webhookUrl, {
@@ -436,6 +409,7 @@
             })
             .then(response => {
                 if (response.ok) {
+                    statusText.style.color = '#00ff7f';
                     statusText.textContent = "Message envoyé avec succès !";
                     document.getElementById('contactForm').reset();
                 } else {
@@ -444,7 +418,7 @@
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                statusText.style.color = '#fff';
+                statusText.style.color = '#ff4040';
                 statusText.textContent = "Erreur lors de l'envoi du message.";
             });
         });
